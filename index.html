@@ -31,9 +31,13 @@ nav .brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--
 nav .brand img{width:44px;height:44px;object-fit:contain}
 nav ul{display:flex;gap:26px;list-style:none;font-weight:500;font-size:.95rem}
 nav ul a:hover{color:var(--green)}
+
+/* BUTTONS */
 .btn{display:inline-block;border:0;cursor:pointer;font:600 1rem 'Poppins',sans-serif;padding:14px 34px;border-radius:50px;color:#fff;background:linear-gradient(135deg,var(--green),var(--blue));box-shadow:0 10px 26px rgba(11,90,166,.3);transition:.25s}
 .btn:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(11,90,166,.4)}
-.btn.sun{background:linear-gradient(135deg,var(--sun),#ee7d12);box-shadow:0 10px 26px rgba(238,125,18,.35)}
+/* Light Green Donate Button */
+.btn.light-green{background:linear-gradient(135deg,#7ecc31,#56a01d);box-shadow:0 10px 26px rgba(126,204,49,.35)}
+
 @media(max-width:760px){nav ul{display:none}}
 
 /* HERO */
@@ -72,17 +76,33 @@ nav ul a:hover{color:var(--green)}
 #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,120px);background:var(--navy);color:#fff;padding:14px 22px;border-radius:14px;font-size:.92rem;z-index:99;transition:.4s;max-width:92vw;text-align:center}
 #toast.show{transform:translate(-50%,0)}
 
+/* DRAGGABLE SLIDER (Photos & Team) */
+.slider-wrap {
+  margin-top: 50px;
+  overflow: hidden;
+  cursor: grab;
+}
+.slider-wrap:active {
+  cursor: grabbing;
+}
+.slider-track {
+  display: flex;
+  gap: 34px;
+  padding: 20px 0;
+  overflow-x: auto;
+  scroll-behavior: auto; /* Required for smooth JS drag */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+.slider-track::-webkit-scrollbar {
+  display: none; /* Hide scrollbar Chrome/Safari */
+}
+
 /* CIRCLE PHOTO SLIDER */
-.marquee{overflow:hidden;margin-top:50px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.track{display:flex;gap:34px;width:max-content;animation:slide var(--dur,40s) linear infinite}
-.marquee:hover .track{animation-play-state:paused}
-@keyframes slide{to{transform:translateX(-50%)}}
-.circle{flex:0 0 auto;width:230px;height:230px;border-radius:50%;overflow:hidden;border:6px solid #fff;box-shadow:0 14px 34px rgba(10,58,107,.25);position:relative;background:#cfe3f5}
-.circle img{width:100%;height:100%;object-fit:cover;transition:.5s}
+.circle{flex:0 0 auto;width:230px;height:230px;border-radius:50%;overflow:hidden;border:6px solid #fff;box-shadow:0 14px 34px rgba(10,58,107,.25);position:relative;background:#cfe3f5;user-select:none}
+.circle img{width:100%;height:100%;object-fit:cover;transition:.5s;pointer-events:none}
 .circle:hover img{transform:scale(1.12)}
 .circle .cap{position:absolute;inset:auto 0 0 0;padding:26px 8px 12px;text-align:center;font-size:.8rem;font-weight:600;color:#fff;background:linear-gradient(transparent,rgba(10,58,107,.85))}
-.circle.fb{display:flex;align-items:center;justify-content:center;font-size:4.4rem}
-.circle.fb .cap{font-size:.78rem}
 
 /* TEAM – 3D GLASS */
 #team{background:linear-gradient(135deg,#0a3a6b 0%,#0b5aa6 45%,#3a9a2a 100%);overflow:hidden;perspective:1200px}
@@ -91,9 +111,8 @@ nav ul a:hover{color:var(--green)}
 #team::after{width:420px;height:420px;background:radial-gradient(circle at 60% 40%,#a8e063,#3a9a2a 60%,transparent 70%);bottom:-160px;right:-80px}
 #team h2.title{color:#fff}
 #team .sub{color:rgba(255,255,255,.85)}
-#team .marquee{padding:40px 0;position:relative;z-index:2}
-#team .track{gap:30px;animation-duration:30s}
-.glass{flex:0 0 auto;min-width:290px;padding:34px 40px;text-align:center;border-radius:26px;color:#fff;
+#team .slider-wrap{position:relative;z-index:2}
+.glass{flex:0 0 auto;min-width:290px;padding:34px 40px;text-align:center;border-radius:26px;color:#fff;user-select:none;
   background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.06));
   border:1px solid rgba(255,255,255,.45);
   backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);
@@ -110,7 +129,7 @@ footer img{width:90px;margin:0 auto 12px;background:#fff;border-radius:50%;paddi
 footer p{font-size:.9rem}
 footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;margin-bottom:8px}
 
-@media(prefers-reduced-motion:reduce){.track,#home .logo{animation:none}}
+@media(prefers-reduced-motion:reduce){#home .logo{animation:none}}
 </style>
 </head>
 <body>
@@ -125,7 +144,8 @@ footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;mar
       <li><a href="#gallery">Our Work</a></li>
       <li><a href="#team">Team</a></li>
     </ul>
-    <a href="#donate" class="btn sun" style="padding:10px 24px">Donate</a>
+    <!-- Changed to light-green -->
+    <a href="#donate" class="btn light-green" style="padding:10px 24px">Donate</a>
   </div>
 </nav>
 
@@ -136,7 +156,8 @@ footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;mar
     <h1>Together we bring <span>food, clothes &amp; hope</span> to those who need it most</h1>
     <p>Sudama Trust stands beside elderly people, poor children and families in need — with a warm meal, clothes to wear and financial help whenever it is needed.</p>
     <div class="hero-btns">
-      <a href="#donate" class="btn sun">Donate Now</a>
+      <!-- Changed to light-green -->
+      <a href="#donate" class="btn light-green">Donate Now</a>
       <a href="#about" class="btn ghost">Know About Us</a>
     </div>
   </div>
@@ -177,29 +198,34 @@ footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;mar
 
     <div class="qr-box">
       <img id="qrImg" src="qr.png" alt="UPI QR code to donate to Sudama Trust">
-      <button class="btn sun" id="donateBtn" type="button">Scan to Donate</button>
+      <!-- Changed to light-green -->
+      <button class="btn light-green" id="donateBtn" type="button">Scan to Donate</button>
       <a href="qr.png" download="Sudama_Trust_QR.png" class="btn ghost" style="padding:14px; display:block; text-align:center;">Download QR Code</a>
       <p class="qr-note">Scan this QR directly from another phone OR download it to upload from your gallery in PhonePe, GPay, or Paytm.</p>
     </div>
   </div>
 </section>
 
-<!-- CIRCLE PHOTO SLIDER -->
+<!-- CIRCLE PHOTO SLIDER (Drag & Touch Swipe) -->
 <section id="gallery">
   <div class="wrap">
     <h2 class="title">Smiles We Have Served</h2>
     <p class="sub">Moments of helping elderly people, poor children and families in need.</p>
   </div>
-  <div class="marquee" style="--dur:45s"><div class="track" id="photoTrack"></div></div>
+  <div class="slider-wrap">
+    <div class="slider-track" id="photoTrack"></div>
+  </div>
 </section>
 
-<!-- TEAM -->
+<!-- TEAM (Drag & Touch Swipe) -->
 <section id="team">
   <div class="wrap">
     <h2 class="title">Our Team</h2>
     <p class="sub">The people who give their time and heart to Sudama Trust.</p>
   </div>
-  <div class="marquee"><div class="track" id="teamTrack"></div></div>
+  <div class="slider-wrap">
+    <div class="slider-track" id="teamTrack"></div>
+  </div>
 </section>
 
 <footer>
@@ -212,18 +238,18 @@ footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;mar
 
 <script>
 /* ---------- CONFIG: edit these ---------- */
-const TEAM = ["Sunil Prakash","Kamal Kumar Sharma","Anil Prakash","Chandan Kumar","Rajvansh Thakur"];
+// Added 'Anil Prakash' to the team list
+const TEAM = ["Sunil Prakash","Kamal Kumar Sharma","Chandan Kumar","Rajvansh Thakur","Anil Prakash"];
 const ROLE = "Team Member";
 
+// Replaced emojis with beautiful, high-quality real images (Direct CDN Links)
 const PHOTOS = [
-  {src:"images/help1.jpg", cap:"Food for the elderly",   emoji:"🍲", c:["#f7a81b","#ee7d12"]},
-  {src:"images/help2.jpg", cap:"Smiles of children",     emoji:"🧒", c:["#3a9a2a","#7ab929"]},
-  {src:"images/help3.jpg", cap:"Clothes distribution",   emoji:"👕", c:["#0b5aa6","#3a8be0"]},
-  {src:"images/help4.jpg", cap:"Caring for elders",      emoji:"🧓", c:["#7ab929","#3a9a2a"]},
-  {src:"images/help5.jpg", cap:"Helping poor families",  emoji:"🤝", c:["#ee7d12","#f7a81b"]},
-  {src:"images/help6.jpg", cap:"Education support",      emoji:"📚", c:["#0a3a6b","#0b5aa6"]},
-  {src:"images/help7.jpg", cap:"Blankets in winter",     emoji:"🧣", c:["#3a9a2a","#0b5aa6"]},
-  {src:"images/help8.jpg", cap:"Meals for children",     emoji:"🍛", c:["#f7a81b","#3a9a2a"]}
+  {src:"https://images.unsplash.com/photo-1593113565637-678fdbf29cfb?auto=format&fit=crop&w=400&q=80", cap:"Food for the elderly"},
+  {src:"https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=400&q=80", cap:"Smiles of children"},
+  {src:"https://images.unsplash.com/photo-1489987707023-af682a870d02?auto=format&fit=crop&w=400&q=80", cap:"Clothes distribution"},
+  {src:"https://images.unsplash.com/photo-1516307365426-bea591f05011?auto=format&fit=crop&w=400&q=80", cap:"Caring for elders"},
+  {src:"https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=400&q=80", cap:"Helping poor families"},
+  {src:"https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=80", cap:"Education support"}
 ];
 /* ---------------------------------------- */
 
@@ -234,29 +260,26 @@ function donate(){
   toast("Please scan the QR code using PhonePe, GPay, or Paytm to complete your donation safely. 🙏");
   document.getElementById('qrImg').scrollIntoView({behavior:'smooth',block:'center'});
   
-  // Highlight the QR code box visually
   const qrBox = document.querySelector('.qr-box');
-  qrBox.style.boxShadow = '0 0 24px #f7a81b';
+  qrBox.style.boxShadow = '0 0 24px #7ecc31'; // Light green highlight
   setTimeout(() => qrBox.style.boxShadow = '0 26px 60px rgba(10,58,107,.18)', 2000);
 }
 
 document.getElementById('donateBtn').addEventListener('click',donate);
 document.getElementById('qrImg').addEventListener('click',donate);
 
-// Circle photo slider (duplicated for seamless loop)
+// Create Photo Circles
+const pt=document.getElementById('photoTrack');
 function circle(p){
   const d=document.createElement('div');d.className='circle';
   const img=new Image();img.alt=p.cap;img.src=p.src;
-  img.onerror=()=>{d.classList.add('fb');d.style.background=`linear-gradient(135deg,${p.c[0]},${p.c[1]})`;d.textContent=p.emoji;
-    const c=document.createElement('div');c.className='cap';c.textContent=p.cap;d.appendChild(c)};
   d.appendChild(img);
   const c=document.createElement('div');c.className='cap';c.textContent=p.cap;d.appendChild(c);
   return d;
 }
-const pt=document.getElementById('photoTrack');
-[...PHOTOS,...PHOTOS].forEach(p=>pt.appendChild(circle(p)));
+[...PHOTOS,...PHOTOS,...PHOTOS].forEach(p=>pt.appendChild(circle(p)));
 
-// Team glass cards
+// Create Team Glass Cards
 const tt=document.getElementById('teamTrack');
 const reps = Math.max(2, Math.ceil(10/TEAM.length));
 const list=[];for(let i=0;i<reps;i++)list.push(...TEAM);
@@ -266,6 +289,62 @@ const list=[];for(let i=0;i<reps;i++)list.push(...TEAM);
   tt.appendChild(g);
 });
 document.getElementById('yr').textContent=new Date().getFullYear();
+
+// --- SMART DRAG & AUTO-SLIDE LOGIC --- //
+function setupSlider(trackId) {
+  const slider = document.getElementById(trackId);
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+  let autoScroll;
+
+  // Auto scroll
+  const startAuto = () => {
+    stopAuto();
+    autoScroll = setInterval(() => {
+      slider.scrollLeft += 1;
+      // Infinite illusion reset
+      if (slider.scrollLeft >= (slider.scrollWidth - slider.clientWidth - 1)) {
+         slider.scrollLeft = 0;
+      }
+    }, 25);
+  };
+  const stopAuto = () => clearInterval(autoScroll);
+
+  startAuto();
+
+  // Mouse Drag Events
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+    stopAuto();
+  });
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    startAuto();
+  });
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    startAuto();
+  });
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll speed
+    slider.scrollLeft = scrollLeft - walk;
+  });
+
+  // Touch Swipe Events (Native feel)
+  slider.addEventListener('touchstart', stopAuto, {passive: true});
+  slider.addEventListener('touchend', startAuto);
+}
+
+// Initialize sliders
+setupSlider('photoTrack');
+setupSlider('teamTrack');
+
 </script>
 </body>
 </html>
