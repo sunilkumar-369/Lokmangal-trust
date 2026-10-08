@@ -49,7 +49,7 @@ nav ul a:hover{color:var(--green)}
   height: min(280px, 60vw);
   border-radius: 50%;
   object-fit: contain;
-  background: #fff; /* White background to make the logo pop */
+  background: #fff;
   padding: 10px;
   box-shadow: 0 18px 30px rgba(11,90,166,.18);
   margin: 0 auto 15px;
@@ -86,11 +86,11 @@ nav ul a:hover{color:var(--green)}
 .qr-note{font-size:.85rem;color:var(--muted);margin-top:16px}
 .qr-note b{color:var(--navy)}
 
-/* FIXED TOAST NOTIFICATION: Hidden correctly by default */
+/* FIXED TOAST NOTIFICATION */
 #toast {
   position: fixed;
   left: 50%;
-  bottom: -100px; /* Hidden off-screen */
+  bottom: -100px;
   transform: translateX(-50%);
   background: var(--navy);
   color: #fff;
@@ -106,12 +106,12 @@ nav ul a:hover{color:var(--green)}
   white-space: nowrap;
 }
 #toast.show {
-  bottom: 40px; /* Slides up gracefully */
+  bottom: 40px;
   opacity: 1;
   visibility: visible;
 }
 
-/* DRAGGABLE SLIDER (Photos & Team) */
+/* DRAGGABLE SLIDER */
 .slider-wrap {
   margin-top: 50px;
   overflow: hidden;
@@ -186,7 +186,6 @@ footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;mar
 <!-- PAGE 1 : HOME -->
 <section id="home">
   <div class="wrap">
-    <!-- Circle Logo Image -->
     <img class="logo" src="logo.png" alt="Sudama Trust – As well as team help people">
     <h1>Together we bring <span>food, clothes &amp; hope</span> to those who need it most</h1>
     <p>Sudama Trust stands beside elderly people, poor children and families in need — with a warm meal, clothes to wear and financial help whenever it is needed.</p>
@@ -239,7 +238,7 @@ footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;mar
   </div>
 </section>
 
-<!-- CIRCLE PHOTO SLIDER (Drag & Touch Swipe) -->
+<!-- CIRCLE PHOTO SLIDER -->
 <section id="gallery">
   <div class="wrap">
     <h2 class="title">Smiles We Have Served</h2>
@@ -250,7 +249,7 @@ footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;mar
   </div>
 </section>
 
-<!-- TEAM (Drag & Touch Swipe) -->
+<!-- TEAM -->
 <section id="team">
   <div class="wrap">
     <h2 class="title">Our Team</h2>
@@ -274,14 +273,17 @@ footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;mar
 const TEAM = ["Sunil Prakash","Kamal Kumar Sharma","Chandan Kumar","Rajvansh Thakur","Anil Prakash"];
 const ROLE = "Team Member";
 
-// Updated with 100% working, relevant, high-quality images for charity & NGO
+/* 
+  ये आपकी खुद की फोटोज के नाम हैं। 
+  इन्हें इसी नाम से GitHub में अपलोड करें। 
+*/
 const PHOTOS = [
-  {src:"https://images.unsplash.com/photo-1470506028280-a011fb34b6f7?q=80&w=400&auto=format&fit=crop", cap:"Food for the elderly"},
-  {src:"https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=400&auto=format&fit=crop", cap:"Smiles of children"},
-  {src:"https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=400&auto=format&fit=crop", cap:"Clothes & Food Help"},
-  {src:"https://images.unsplash.com/photo-1516307365426-bea591f05011?q=80&w=400&auto=format&fit=crop", cap:"Caring for elders"},
-  {src:"https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=400&auto=format&fit=crop", cap:"Helping poor families"},
-  {src:"https://images.unsplash.com/photo-1524069290683-0457abfacbfa?q=80&w=400&auto=format&fit=crop", cap:"Education support"}
+  {src:"food.jpg", cap:"Food for the elderly"},
+  {src:"kids.jpg", cap:"Smiles of children"},
+  {src:"clothes.jpg", cap:"Clothes distribution"},
+  {src:"elders.jpg", cap:"Caring for elders"},
+  {src:"family.jpg", cap:"Helping poor families"},
+  {src:"education.jpg", cap:"Education support"}
 ];
 /* ---------------------------- */
 
@@ -314,6 +316,20 @@ function circle(p){
   const img = new Image();
   img.alt = p.cap;
   img.src = p.src;
+  
+  // अगर कोई फोटो अपलोड होना भूल जाए, तो खाली जगह न दिखे, उसके लिए एक बैकअप कलर आ जाएगा
+  img.onerror = () => {
+    d.style.background = "#e6f0fb";
+    d.style.display = "flex";
+    d.style.alignItems = "center";
+    d.style.justifyContent = "center";
+    d.innerHTML = `<span style="color:#0a3a6b;font-weight:600;font-size:0.9rem;text-align:center;padding:10px;">Image Coming Soon</span>`;
+    const c = document.createElement('div');
+    c.className = 'cap';
+    c.textContent = p.cap;
+    d.appendChild(c);
+  };
+  
   d.appendChild(img);
   const c = document.createElement('div');
   c.className = 'cap';
