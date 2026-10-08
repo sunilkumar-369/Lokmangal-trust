@@ -64,10 +64,10 @@ nav ul a:hover{color:var(--green)}
 
 /* DONATE */
 #donate{background:linear-gradient(160deg,#eaf6ea,#e6f0fb)}
-.qr-box{margin:44px auto 0;width:min(360px,92%);background:#fff;border-radius:28px;padding:22px;text-align:center;box-shadow:0 26px 60px rgba(10,58,107,.18)}
+.qr-box{margin:44px auto 0;width:min(360px,92%);background:#fff;border-radius:28px;padding:22px;text-align:center;box-shadow:0 26px 60px rgba(10,58,107,.18);transition:box-shadow 0.4s ease}
 .qr-box img{border-radius:18px;width:100%;cursor:pointer}
 .qr-box .btn{width:100%;margin-top:18px;font-size:1.15rem;letter-spacing:.5px}
-.qr-note{font-size:.85rem;color:var(--muted);margin-top:12px}
+.qr-note{font-size:.85rem;color:var(--muted);margin-top:16px}
 .qr-note b{color:var(--navy)}
 #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,120px);background:var(--navy);color:#fff;padding:14px 22px;border-radius:14px;font-size:.92rem;z-index:99;transition:.4s;max-width:92vw;text-align:center}
 #toast.show{transform:translate(-50%,0)}
@@ -173,12 +173,13 @@ footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;mar
 <section id="donate">
   <div class="wrap">
     <h2 class="title">Support Our Cause</h2>
-    <p class="sub">Your small help can fill an empty plate or warm a cold night. Scan the QR code or tap the button below.</p>
+    <p class="sub">Your small help can fill an empty plate or warm a cold night. Scan the QR code or tap the buttons below to donate safely.</p>
 
     <div class="qr-box">
       <img id="qrImg" src="qr.png" alt="UPI QR code to donate to Sudama Trust">
-      <button class="btn sun" id="donateBtn" type="button">Donate</button>
-      <p class="qr-note">Opens your UPI app (PhonePe, GPay, Paytm, BHIM…) · On a computer, scan the QR with your phone.</p>
+      <button class="btn sun" id="donateBtn" type="button">Scan to Donate</button>
+      <a href="qr.png" download="Sudama_Trust_QR.png" class="btn ghost" style="padding:14px; display:block; text-align:center;">Download QR Code</a>
+      <p class="qr-note">Scan this QR directly from another phone OR download it to upload from your gallery in PhonePe, GPay, or Paytm.</p>
     </div>
   </div>
 </section>
@@ -211,13 +212,9 @@ footer .tag{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;mar
 
 <script>
 /* ---------- CONFIG: edit these ---------- */
-// UPI link (decoded from the uploaded QR code)
-const UPI_LINK = "upi://pay?pa=BHARATPE2O0V0V8J5K02362@unitype&pn=Sudama%20Trust&cu=INR";
-
-const TEAM = ["Sunil Prakash","Kamal Kumar Sharma","Chandan Kumar","Rajvansh Thakur","Anil Prakash"];
+const TEAM = ["Sunil Prakash","Kamal Kumar Sharma","Chandan Kumar","Rajvansh Thakur"];
 const ROLE = "Team Member";
 
-// Note: For these gallery images below, you will need to create a folder named 'images' on GitHub later and upload them there.
 const PHOTOS = [
   {src:"images/help1.jpg", cap:"Food for the elderly",   emoji:"🍲", c:["#f7a81b","#ee7d12"]},
   {src:"images/help2.jpg", cap:"Smiles of children",     emoji:"🧒", c:["#3a9a2a","#7ab929"]},
@@ -230,18 +227,19 @@ const PHOTOS = [
 ];
 /* ---------------------------------------- */
 
-// Donate: open UPI app on phones, show help on desktop
+// Donate Logic: Highlight QR and guide user to scan or download
 const toast = (m)=>{const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),5000)};
+
 function donate(){
-  const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  if(mobile){
-    toast("Opening your UPI app… thank you for helping! 🙏");
-    window.location.href = UPI_LINK;
-  } else {
-    toast("Please scan the QR code with any UPI app on your phone to donate. Thank you! 🙏");
-    document.getElementById('qrImg').scrollIntoView({behavior:'smooth',block:'center'});
-  }
+  toast("Please scan the QR code using PhonePe, GPay, or Paytm to complete your donation safely. 🙏");
+  document.getElementById('qrImg').scrollIntoView({behavior:'smooth',block:'center'});
+  
+  // Highlight the QR code box visually
+  const qrBox = document.querySelector('.qr-box');
+  qrBox.style.boxShadow = '0 0 24px #f7a81b';
+  setTimeout(() => qrBox.style.boxShadow = '0 26px 60px rgba(10,58,107,.18)', 2000);
 }
+
 document.getElementById('donateBtn').addEventListener('click',donate);
 document.getElementById('qrImg').addEventListener('click',donate);
 
